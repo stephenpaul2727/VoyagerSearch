@@ -13,12 +13,12 @@ import com.vsearch.models.Demo;
  */
 public interface DemoRepository extends SolrCrudRepository<Demo,String>{
 	
-		// queries all the document items which contains given id in their id fields.
-	 	public List<Demo> findById(String id);
+	// queries all the document items which contains given id in their id fields.
+	public List<Demo> findById(String id);
 	 
-	 	//queries all the document items which contains given search term in any of the fields,only results in the two fields id and title_s(remaining fields are excluded) and displays by limiting a certain amount to a page(Paging).
-	    	@Query("q:*:* AND fl=id,title_s")
-	    	public Page<Demo> findByCustomQuery(String searchTerm, Pageable pageable);
+	//queries all the document items which contains given search term in any of the fields,only results in the two fields id and title_s(remaining fields are excluded) and displays by limiting a certain amount to a page(Paging).
+	@Query("q:*:* AND fl=id,title_s")
+	public Page<Demo> findByCustomQuery(String searchTerm, Pageable pageable);
 	   
 	    
 
