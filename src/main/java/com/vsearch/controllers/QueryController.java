@@ -1,5 +1,7 @@
 package com.vsearch.controllers;
 
+import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,25 +40,42 @@ public class QueryController {
 		return "Details Indexed in Solr Core document";
 	}
 	//Given a search string as request parameter with page restriction integer between 1 to 10. It will result in the all the rows that matched the given string displayed as page object which we stringify.
+	//res will contain the searchquery output
 	@RequestMapping(value="/searchQuery")
 	public String getAllBySearch(@RequestParam("searchString") String searchString, @RequestParam("pageRestrict") int pageRestrict){
-		Page<Demo> res = demoRepository.findByCustomQuery(searchString, new PageRequest(0,pageRestrict));
-		return res.toString();
+		Page<Demo> res = demoRepository.findByCustomQuery(searchString, new PageRequest(0,5));
+		return "successfully retireved data in the Page object res please check!";
 	}
 	
+	
 	//given a field of type int to sort. THe following controller map sorts the data in document in descending order of the field items.
+	//res will contain the searchquery output
 	@RequestMapping(value="/descSortQuery")
 	public String getAllByDescFilter(@RequestParam("field") String field){
 		Iterable<Demo> res = demoRepository.findAll(new Sort(Sort.Direction.DESC,field));
-		return res.toString();
+		//uncomment the following lines to observe the data.
+//		Iterator<Demo> i = res.iterator();
+//		while(i.hasNext()){
+//			Demo demo = (Demo) i.next();
+//			System.out.println(demo.getPubyear_i());
+//			
+//		}
+		return "successfully retrieved data in the Iterable object res please check!";
 	
 	}
 	//given a field of type int to sort. THe following controller map sorts the data in document in ascending order of the field items.
-
+	//res will contain the searchquery output
 	@RequestMapping(value="/asceSortQuery")
 	public String getAllByAsceFilter(@RequestParam("field") String field){
 		Iterable<Demo> res = demoRepository.findAll(new Sort(Sort.Direction.ASC,field));
-		return res.toString();
+		//uncomment the following lines to observe the data.
+//		Iterator<Demo> i = res.iterator();
+//		while(i.hasNext()){
+//			Demo demo = (Demo) i.next();
+//			System.out.println(demo.getPubyear_i());
+//			
+//		}
+		return "successfully retrieved data in the Iterable obect res please check!";
 	}
 
 	

@@ -16,8 +16,8 @@ public interface DemoRepository extends SolrCrudRepository<Demo,String>{
 	// queries all the document items which contains given id in their id fields.
 	public List<Demo> findById(String id);
 	 
-	//queries all the document items which contains given search term in any of the fields,only results in the two fields id and title_s(remaining fields are excluded) and displays by limiting a certain amount to a page(Paging).
-	@Query("q:*:* AND fl=id,title_s")
+	//queries all the document items which contains given search term in id field,only results in the two fields author_s and series_s(remaining fields are excluded) and displays by limiting a certain amount to a page(Paging).
+	@Query(value="id:*?0*",fields={"author_s,series_s"})
 	public Page<Demo> findByCustomQuery(String searchTerm, Pageable pageable);
 	   
 	    
