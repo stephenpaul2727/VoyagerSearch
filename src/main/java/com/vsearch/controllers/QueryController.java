@@ -1,6 +1,7 @@
 package com.vsearch.controllers;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import com.vsearch.interfaces.DemoRepository;
 import com.vsearch.models.Demo;
 /*
 A Rest Controller defined to handle the queries in form of a url with request parameters. A Rest controller is used as we have no views to map model with. The controller itself acts as a response body and displays on web page.
+Using controller class to follow Spring REST Api Standard.
  */
 @RestController
 public class QueryController {
@@ -42,9 +44,16 @@ public class QueryController {
 	//Given a search string as request parameter with page restriction integer between 1 to 10. It will result in the all the rows that matched the given string displayed as page object which we stringify.
 	//res will contain the searchquery output
 	@RequestMapping(value="/searchQuery")
-	public String getAllBySearch(@RequestParam("searchString") String searchString, @RequestParam("pageRestrict") int pageRestrict){
-		Page<Demo> res = demoRepository.findByCustomQuery(searchString, new PageRequest(0,5));
-		return "successfully retireved data in the Page object res please check!";
+	public List<Demo> getAllBySearch(@RequestParam("searchString") String searchString, @RequestParam("pageRestrict") int pageRestrict){
+		Page<Demo> res = demoRepository.findByCustomQuery(searchString, new PageRequest(0,pageRestrict));
+		List<Demo> list =res.getContent();
+//		for(Demo demo:list){
+//			System.out.println(demo.getAuthor_s());
+//			System.out.println(demo.getSeries_s());
+//			//we will get pubyear_i as 0 as it is not listed as one of return fields in repository.
+//			System.out.println(demo.getPubyear_i());
+//		}
+		return list;
 	}
 	
 	
